@@ -55,5 +55,19 @@
             android:text="onder"
             android:onClick="Down"></Button>
 
+        <Button
+            android:id="@+id/btnCentre"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="centreer"
+            android:onClick="Centre"></Button>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:id="@+id/etDistance"
+            android:text="10"
+            />
     </LinearLayout>
 </RelativeLayout>

@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -40,7 +39,8 @@ public class BallView extends View {
         Up,
         Down,
         Left,
-        Right
+        Right,
+        BackToCentre
     }
 
     public void ChangePosition(eDirection direction, int distance){
@@ -48,15 +48,21 @@ public class BallView extends View {
         switch(direction){
             case Down:
                 fBallY =  fBallY + distance;
+                break;
             case Up:
                 fBallY = fBallY  - distance;
+                break;
             case Left:
                 fBallX = fBallX - distance;
+                break;
             case Right:
                 fBallX = fBallX +  distance;
+                break;
+            case BackToCentre:
+                fBallY = fMiddenY;
+                fBallX = fMiddenX;
         }
 
-        Log.i("MyBall", "fBallY: " + fBallY + " fBallX: " + fBallX);
         invalidate();
 
     }
@@ -94,10 +100,6 @@ public class BallView extends View {
         // Ball op dezelfde locatie zetten t.o.v. daarvoor
 
 
-
-        Log.i("MyBall", "fBallY: " + fBallY + " fBallX: " + fBallX);
-        Log.i("MyBall", "oldw: " + oldw + " oldh: " + oldh);
-        Log.i("MyBall", "w: " + w + " h: " + h);
         invalidate();
     }
 
