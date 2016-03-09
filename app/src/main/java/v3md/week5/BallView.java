@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -43,18 +44,21 @@ public class BallView extends View {
     }
 
     public void ChangePosition(eDirection direction, int distance){
+
         switch(direction){
             case Down:
-                fBallY += distance;
+                fBallY =  fBallY + distance;
             case Up:
-                fBallY -= distance;
+                fBallY = fBallY  - distance;
             case Left:
-                fBallX -= distance;
+                fBallX = fBallX - distance;
             case Right:
-                fBallX += distance;
+                fBallX = fBallX +  distance;
         }
 
+        Log.i("MyBall", "fBallY: " + fBallY + " fBallX: " + fBallX);
         invalidate();
+
     }
 
 
@@ -76,13 +80,24 @@ public class BallView extends View {
 
         float iPlaceX, iPlaceY;
 
+        if(oldw != 0 && oldh != 0){
+            iPlaceX = fBallX / (float) oldw;
+            fBallX = (float) w * iPlaceX;
+
+            iPlaceY = fBallY / (float) oldh;
+            fBallY = (float) h * iPlaceY;
+        }
+        else{
+            fBallX = fMiddenX;
+            fBallY = fMiddenY;
+        }
         // Ball op dezelfde locatie zetten t.o.v. daarvoor
-        iPlaceX = fBallX / (float) oldw;
-        fBallX = (float) w * iPlaceX;
 
-        iPlaceY = fBallY / (float) oldh;
-        fBallY = (float) h * iPlaceY;
 
+
+        Log.i("MyBall", "fBallY: " + fBallY + " fBallX: " + fBallX);
+        Log.i("MyBall", "oldw: " + oldw + " oldh: " + oldh);
+        Log.i("MyBall", "w: " + w + " h: " + h);
         invalidate();
     }
 
