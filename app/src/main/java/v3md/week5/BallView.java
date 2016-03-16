@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -15,13 +16,15 @@ public class BallView extends View {
 
     Bitmap MyBall;
     Paint myPaint = new Paint();
-    float fBallX = 0f, fBallY = 0f, fMiddenX = 0f, fMiddenY = 0f;
+    float fBallX = 0f, fBallY = 0f, fMiddenX = 0f, fMiddenY = 0f, fScreenSizeX = 0f, fScreenSizeY = 0f;
 
     public BallView(Context context) {
         super(context);
         MyBall = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
         myPaint.setColor(0xff000000);
         myPaint.setTextSize(16);
+
+
     }
 
     public BallView(Context context, AttributeSet attrs) {
@@ -47,15 +50,27 @@ public class BallView extends View {
 
         switch(direction){
             case Down:
+                if(fBallY + distance > fScreenSizeY){
+                    break;
+                }
                 fBallY =  fBallY + distance;
                 break;
             case Up:
+                if(fBallY - distance < 0){
+                    break;
+                }
                 fBallY = fBallY  - distance;
                 break;
             case Left:
+                if(fBallX - distance < 0){
+                    break;
+                }
                 fBallX = fBallX - distance;
                 break;
             case Right:
+                if(fBallX + distance > fScreenSizeX){
+                    break;
+                }
                 fBallX = fBallX +  distance;
                 break;
             case BackToCentre:
@@ -69,14 +84,24 @@ public class BallView extends View {
 
 
     public void onMeasure(int specX, int specY){
-        int sizeX = MeasureSpec.getSize(specX);
-        int sizeY = MeasureSpec.getSize(specY);
+        int specx = MeasureSpec.getSize(specX);
+        int specy = MeasureSpec.getSize(specY);
+
         int modeX = MeasureSpec.getMode(specX);
         int modeY = MeasureSpec.getMode(specY);
+
         int x = 150;
         int y = 150;
-        if(modeX == MeasureSpec.EXACTLY ) x = sizeX;
-        if(modeY == MeasureSpec.EXACTLY ) y = sizeY;
+
+        if(modeX == MeasureSpec.EXACTLY ) x =  specx;
+        if(modeY == MeasureSpec.EXACTLY ) y =  specy;
+
+
+        fScreenSizeX = x;
+        fScreenSizeY = y;
+        
+        Log.i("onMeasure", "ModeX: " + modeX + " ModeY: " + modeY);
+
         setMeasuredDimension(x, y);
     }
 
@@ -95,7 +120,10 @@ public class BallView extends View {
         }
         else{
             fBallX = fMiddenX;
+            fBallX = fBallX - (MyBall.getWidth() / 2);
+
             fBallY = fMiddenY;
+            fBallY = fBallY - (MyBall.getHeight() / 2);
         }
         // Ball op dezelfde locatie zetten t.o.v. daarvoor
 
